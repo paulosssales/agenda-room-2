@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import br.senai.rn.agenda.asynctask.BuscaAlunoTask;
+import br.senai.rn.agenda.asynctask.RemoveAlunoTask;
 import br.senai.rn.agenda.database.AgendaDatabase;
 import br.senai.rn.agenda.database.dao.AlunoDAO;
 import br.senai.rn.agenda.model.Aluno;
@@ -40,12 +42,11 @@ public class ListaAlunosView {
     }
 
     public void atualizaAlunos() {
-        adapter.atualiza(dao.todos());
+        new BuscaAlunoTask(dao, adapter).execute();
     }
 
     private void remove(Aluno aluno) {
-        dao.remove(aluno);
-        adapter.remove(aluno);
+        new RemoveAlunoTask(dao,adapter,aluno);
     }
 
     public void configuraAdapter(ListView listaDeAlunos) {

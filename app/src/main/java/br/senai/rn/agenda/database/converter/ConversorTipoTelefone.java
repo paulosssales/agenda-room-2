@@ -5,15 +5,12 @@ import br.senai.rn.agenda.model.TipoTelefone;
 
 public class ConversorTipoTelefone {
     @TypeConverter
-    public String paraString(TipoTelefone value){
-        if (value != null) return String.valueOf(value);
-        return null;
-    }
+    public String paraString(TipoTelefone value){return value.name();}
 
     @TypeConverter
-    public TipoTelefone paraTipoTelefone(TipoTelefone tipoTelefone){
-        if (tipoTelefone.CELULAR != null){
-            return tipoTelefone;
+    public TipoTelefone paraTipoTelefone(String value){
+        if (value != null){
+            return TipoTelefone.valueOf(value);
         }
         return TipoTelefone.FIXO;
     }

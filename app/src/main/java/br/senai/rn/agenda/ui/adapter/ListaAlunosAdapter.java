@@ -14,7 +14,7 @@ import br.senai.rn.agenda.R;
 import br.senai.rn.agenda.database.AgendaDatabase;
 import br.senai.rn.agenda.database.dao.TelefoneDAO;
 import br.senai.rn.agenda.model.Aluno;
-import br.senai.rn.agenda.model.Telefone;
+import br.senai.rn.agenda.asynctask.BuscaPrimeiroTelefoneDoAluno;
 
 public class ListaAlunosAdapter extends BaseAdapter {
 
@@ -24,6 +24,7 @@ public class ListaAlunosAdapter extends BaseAdapter {
 
     public ListaAlunosAdapter(Context context) {
         this.context = context;
+        dao = AgendaDatabase.getInstance(context).getTelefoneDAO();
     }
 
     @Override
@@ -53,10 +54,8 @@ public class ListaAlunosAdapter extends BaseAdapter {
         TextView nome = view.findViewById(R.id.item_aluno_nome);
         nome.setText(aluno.getNome());
         TextView telefone = view.findViewById(R.id.item_aluno_telefone);
-        AgendaDatabase database = AgendaDatabase.getInstance(view.getContext());
-        dao = database.getTelefoneDAO();
-        Telefone primeiroTelefone = dao.buscaPrimeiroTelefoneDoAluno(aluno.getId());
-        telefone.setText(primeiroTelefone.getNumero());
+        new BuscaPrimeiroTelefoneDoAluno(dao,
+                telefone, aluno.getId()).execute();
     }
 
     private View criaView(ViewGroup viewGroup) {
