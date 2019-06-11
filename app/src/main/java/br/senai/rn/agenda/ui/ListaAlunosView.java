@@ -46,7 +46,7 @@ public class ListaAlunosView {
     }
 
     private void remove(Aluno aluno) {
-        new RemoveAlunoTask(dao,adapter,aluno);
+        new RemoveAlunoTask(dao,adapter,aluno).execute();
     }
 
     public void configuraAdapter(ListView listaDeAlunos) {
